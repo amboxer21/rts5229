@@ -1,0 +1,18 @@
+--- /usr/src/linux-5.0.0/include/linux/timekeeping32.h	2019-03-10 16:44:24.264964748 -0400
++++ timekeeping32.h	2019-03-10 15:31:23.477852680 -0400
+@@ -6,6 +6,15 @@
+  * over time so we can remove the file here.
+  */
+ 
++static inline void do_gettimeofday(struct timeval *tv)
++{
++  struct timespec64 now;
++
++  ktime_get_real_ts64(&now);
++  tv->tv_sec = now.tv_sec;
++  tv->tv_usec = now.tv_nsec/1000;
++}
++
+ static inline unsigned long get_seconds(void)
+ {
+ 	return ktime_get_real_seconds();
